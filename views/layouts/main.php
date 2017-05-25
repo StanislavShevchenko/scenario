@@ -51,16 +51,20 @@ AppAsset::register($this);
 			</div>
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
+					<?php
+						$url = Yii::$app->request->pathInfo;
+					?>
 					<!-- <li class="active"><a href="#">Home</a></li> -->
-					<li><a href="#">Uzivatele</a></li>
+<!--					<li><a href="#">Uzivatele</a></li>
 					<li><a href="#">Pridat Uzivatele</a></li>
 					<li><a href="#">Spravovat opravneni</a></li>
 					<li><a href="#">Nastaveni</a></li>
 					<li><a href="#">Ke schvaleni</a></li>
 					<li><a href="#">Muj profil</a></li>
-					<li><a href="#">Odhlasit</a></li>
-					<li><a href="/reservation/">Бронирования машин</a></li>
-					<li><a href="/garage/">Гараж</a></li>
+					<li><a href="#">Odhlasit</a></li>-->
+<li><a href="/reservation/" class="<?=(strripos($url, 'reservation/') === false)?'':'active_main_menu'?>"><i  class="fa fa-calendar-check-o  " aria-hidden="true"></i> Бронирования</a></li>
+					<li><a href="/garage/" class="<?=(strripos($url, 'garage/') === false)?'':'active_main_menu'?>"><i  class="fa fa-car" aria-hidden="true"></i> Гараж</a></li>
+					<li><a href="/users/" class="<?=(strripos($url, 'users/') === false)?'':'active_main_menu'?>"><i  class="fa fa-users " aria-hidden="true"></i> Пользователи</a></li>
 				</ul>
 			</div>
 		</div>

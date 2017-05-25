@@ -220,3 +220,22 @@ body {
     position: absolute;
     width: 100%;
 }
+.remove_car{
+	color: #ff3333;
+	font-size: 24px;
+}
+.remove_car:hover{
+	color: #ff0000;
+	text-shadow: 1px 1px 2px #dddddd;
+}
+.wrench_car{
+	color: #3333ff;
+	font-size: 20px;
+}
+.wrench_car:hover{
+	color: #0000ff;
+	text-shadow: 1px 1px 2px #dddddd;
+}
+.active_main_menu{
+	color: #fff !important;
+}

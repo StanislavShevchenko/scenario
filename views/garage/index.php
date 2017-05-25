@@ -1,4 +1,4 @@
-<?php $this->title = 'Гараж'; ?>
+<?$this->title = 'Гараж';?>
 <script>
 	active_modal_win = "<?=(!empty($active_modal_win)) ? $active_modal_win : ''//ид моделки которую нужно запустить?>";
 </script>
@@ -6,12 +6,17 @@
     <hr>
     <div class="row">
       	<div class="col-lg-6">
-	        <div class="input-group">
-          		<input class="form-control" type="text">
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button" >Искать машину!</button>
-				</span>
-        	</div><!-- /input-group -->
+			<form class="form-horizontal row_b" role="form" method="get">	
+				<div class="input-group">				
+					<input class="form-control" name="q" value="<?=Yii::$app->request->get('q');?>" type="text">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit" >Искать машину!</button>
+							<?if(Yii::$app->request->get('q')):?>
+								<a class="btn btn-danger " href="/garage/">Сбросить</a>
+							<?endif;?>
+						</span>				
+				</div><!-- /input-group -->
+			</form>
       	</div>
       	<div class="col-lg-6">
       		<button class="btn btn-success" type="button" id="new_car">Добавить машину</button>
@@ -31,17 +36,18 @@
 					<!--<th>Коробка</th>-->
 					<th>Литраж</th>
 					<th>Мест</th>
-					<th>Ведущее реле</th>
+					<th>Привод</th>
 					<th>Цвет</th>
 					<th>Резина</th>
-					<th>Расход то-ва</th>
-					<th>Киллометраж</th>
+					<th>Расход л/ч</th>
+					<th>Пробег</th>
+					<th></th>
                 </tr>
             </thead>
             <tbody>
                 <?foreach($arCarList as $key => $val):?>
 					<tr class="click_edit_car" data-idcar="<?=$val["id"];?>">
-						<td><?=$val["id"];?></td>
+						<td><i  class="fa fa-car" aria-hidden="true"></i> <?=$val["id"];?></td>
 						<td><?=$val["number"];?></td>
 						<td><?=$val["brand"];?></td>
 						<td><?=$val["model"];?></td>
@@ -55,6 +61,10 @@
 						<td><?=$val["rubber"];?></td>
 						<td><?=$val["consumption"];?></td>
 						<td><?=$val["kilometers"];?></td>
+						<td>
+							<i title="В ремонт" class="wrench_car fa fa-wrench " aria-hidden="true"></i>
+							<i title="Удалить автомобиль" class="remove_car fa fa-times " aria-hidden="true"></i>
+						</td>
 					</tr>
 				<?endforeach;?>
 			</tbody>

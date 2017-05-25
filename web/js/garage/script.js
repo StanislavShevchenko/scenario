@@ -11,6 +11,36 @@ $(document).ready(function(){
 	});
 	//--------------------------------------------------------------------------	
 	
+	//удаление авто------------------------------------------------
+	$( ".remove_car" ).click(function() {
+		
+		if (!confirm("Вы подтверждаете удаление?")) return false;
+		 
+		var id = $(this).parent('td').parent('tr').data('idcar');
+
+		$.ajax({
+			type: 'POST',
+			url: '/garage/ajax/',
+			dataType:'JSON',
+			data: {
+				action: 'delCar',
+				id: id,
+				_csrf: csrf
+			},
+			success: function(json){
+				if(json.ERROR != null){
+					mshow('success', json.ERROR);
+					alert();
+				}else{
+					mshow('success', json.OK);
+					$('[data-idcar='+id+']').remove();
+				}
+			}
+		});
+		return false;
+	});
+	//--------------------------------------------------------------------------	
+	
 	//открыть окно для редактирования  авто------------------------------------------------
 	$( ".click_edit_car td" ).click(function() {
 		var id = $(this).parent('tr').data('idcar');

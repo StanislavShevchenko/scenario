@@ -19,7 +19,7 @@ class ReservationController extends Controller
     public function actionIndex()
     {
 		$arRender = [];	
-        return $this->render('users_list', $arRender);
+        return $this->render('reservation_list', $arRender);
     }
 
 }
