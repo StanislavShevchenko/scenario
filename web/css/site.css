@@ -1,0 +1,222 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.container_main {
+    margin-top: 20px;
+	width: 90% !important;
+}
+
+.active_tr td{
+    background-color: #C1FFB8  !important;
+    cursor: pointer;
+}
+.table_cal{
+    width: 100%;
+}
+.table_cal .cal_red{
+    color: red;
+}
+.list-avto{
+    border-radius: 5px;
+    height: 415px;
+    border-top: 2px solid #ddd;
+    border-bottom: 2px solid #ddd;
+    overflow: auto;
+}
+
+.status_day_emp{
+    position: absolute;
+    color: green;
+    margin: 0 0 0 -39%;
+}
+
+.status_day_emp2{
+    position: absolute;
+    color: yellow;
+    margin: 0 0 0 -39%;
+}
+.status_day_wrench{
+    position: absolute;
+    color: blue;
+    margin: 0 0 0 -39%;
+}
+
+.status_day_close{
+    position: absolute;
+    color: red;
+    margin: 0 0 0 -39%;
+}
+.table_hint_cal .glyphicon{
+	position:relative;
+	margin: 0 7px 0 5px;
+}
+.glyphicon label{
+    color: #a2a2a2;
+    font-size: 10px;
+    padding-left: 3px;
+    position: absolute;
+}
+
+
+
+.table_cal td{
+    text-align: center;
+    border: 1px solid #dddddd;
+    padding: 4%;
+    position: relative;
+}
+.table_cal th{
+    text-align: center;
+    border: 1px solid #dddddd;
+    padding: 1%;
+    position: relative;
+    background-color: #f9f9f9;
+}
+
+
+.table_cal td:hover{
+    background-color: #C1FFB8  !important;
+    cursor: pointer;
+}
+
+.jumbotron {
+    background-color: transparent;
+    text-align: center;
+}
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+.nav-justified {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.row_b .row{
+    margin-bottom: 25px;
+    margin-right: 10px;
+}
+
+.error_f{
+	display: none;
+	color: red;
+    font-size: 11px;
+    margin: 33px 0 0 0;
+    position: absolute;
+}
+.errors .error_f{
+	display: block;
+}
+
+.display_n{
+	display: none;
+}
+
+.row_b .input-group-addon{
+    background-color: #fff;
+    border: 0 none;
+    font-weight: bold;
+    padding: 0 5px 0 0;
+    text-align: right;
+    width: 113px;
+}
+.modal-dialog_edit_avto{
+	width: 700px;
+}
+.modal-dialog_edit_avto .input-group{
+	width: 100%;
+}
+.table_hint_cal td{
+	border-left: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+	padding-right: 10px;
+}
+.nav-justified > li > a {
+    background-image: -moz-linear-gradient(center top , #f5f5f5 0%, #e5e5e5 100%);
+    background-repeat: repeat-x;
+    border-bottom: 1px solid #d5d5d5;
+    color: #777;
+    font-weight: bold;
+    margin-bottom: 0;
+    padding-bottom: 7px;
+    padding-top: 7px;
+    text-align: center;
+}
+.nav-justified > .active > a, .nav-justified > .active > a:hover, .nav-justified > .active > a:focus {
+    background-image: none;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.15) inset;
+}
+.nav-justified > li:first-child > a {
+    border-radius: 5px 5px 0 0;
+}
+.nav-justified > li:last-child > a {
+    border-bottom: 0 none;
+    border-radius: 0 0 5px 5px;
+}
+
+@media (min-width: 768px) {
+.nav-justified {
+    max-height: 52px;
+}
+.nav-justified > li > a {
+    border-left: 1px solid #fff;
+    border-right: 1px solid #d5d5d5;
+}
+.nav-justified > li:first-child > a {
+    border-left: 0 none;
+    border-radius: 5px 0 0 5px;
+}
+.nav-justified > li:last-child > a {
+    border-radius: 0 5px 5px 0;
+    border-right: 0 none;
+}
+}
+@media screen and (min-width: 768px) {
+.masthead, .marketing, .footer {
+    padding-left: 0;
+    padding-right: 0;
+}
+}
+
+
+
+.badgebox
+{
+    opacity: 0;
+}
+
+.badgebox + .badge
+{
+    text-indent: -999999px;
+    /* Makes the badge's width stay the same checked and unchecked */
+	width: 27px;
+}
+
+.badgebox:focus + .badge
+{
+    /* Set something to make the badge looks focused */
+    /* This really depends on the application, in my case it was: */
+    
+    /* Adding a light border */
+    box-shadow: inset 0px 0px 5px;
+    /* Taking the difference out of the padding */
+}
+
+.badgebox:checked + .badge
+{
+    /* Move the check mark back when checked */
+	text-indent: 0;
+}
+
+.footer {
+    background-color: #ddd;
+    bottom: 0;
+    height: 45px;
+    padding-top: 15px;
+    position: absolute;
+    width: 100%;
+}

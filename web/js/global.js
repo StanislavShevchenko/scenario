@@ -1,0 +1,1 @@
+var active_modal_win = '';
