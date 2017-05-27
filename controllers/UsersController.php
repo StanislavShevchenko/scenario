@@ -4,11 +4,10 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-//use app\models\Login;
-//use app\models\User;
-use yii\data\ActiveDataProvider;
+use app\models\User;
+use app\assets\AppAsset;
 
-class ReservationController extends Controller
+class UsersController extends Controller
 {   
 
     /**
@@ -19,7 +18,10 @@ class ReservationController extends Controller
     public function actionIndex()
     {
 		$arRender = [];	
-        return $this->render('reservation_list', $arRender);
+		$arRender['arUsersList'] = User::find()->asArray()->all();
+		
+		$this->getView()->registerJsFile('/js/users/script.js', ['depends' => [AppAsset::className()]]);
+        return $this->render('users_list', $arRender);
     }
 
 }

@@ -12,15 +12,20 @@ class m170511_180423_create_users_table extends Migration
      */
     public function up()
     {
-        $this->createTable('users', [
-            'id'        => $this->primaryKey(),
-            'login'     => $this->string(100)->notNull()->unique(),
-            'password'  => $this->string(255)->notNull(),
-            'email'     => $this->string(255)->notNull(),
-            'name'      => $this->string(255)->notNull(),
-            'last_nama' => $this->string(255)->notNull(),
-            'second_name' => $this->string(255)->notNull(),
-        ]);
+		$this->execute("CREATE TABLE `scenario_yii`.`users` ( "
+			. "`id` INT NOT NULL AUTO_INCREMENT , "
+			. "`login` VARCHAR(250) NOT NULL , "
+			. "`password` VARCHAR(250) NOT NULL , "
+			. "`name` VARCHAR(250) NOT NULL , "
+			. "`second_name` VARCHAR(250) NULL , "
+			. "`last_name` VARCHAR(250) NULL , "
+			. "`email` VARCHAR(250) NULL , "
+			. "`phone` VARCHAR(250) NULL ,"
+			. "`position` VARCHAR(250) NULL ,"
+			. "`role` TINYINT NOT NULL DEFAULT '0' , "
+			. "PRIMARY KEY (`id`), UNIQUE `login_index` (`login`)) ENGINE = InnoDB;"
+		);	
+      
     }
 
     /**

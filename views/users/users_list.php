@@ -1,8 +1,8 @@
-<?$this->title = 'Гараж';?>
+<?$this->title = 'Пользователи';?>
 <script>
 	active_modal_win = "<?=(!empty($active_modal_win)) ? $active_modal_win : ''//ид моделки которую нужно запустить?>";
 </script>
-<h1>Гараж</h1>
+<h1>Пользователи</h1>
     <hr>
     <div class="row">
       	<div class="col-lg-6">
@@ -10,16 +10,16 @@
 				<div class="input-group">				
 					<input class="form-control" name="q" value="<?=Yii::$app->request->get('q');?>" type="text">
 						<span class="input-group-btn">
-							<button class="btn btn-default" type="submit" >Искать машину!</button>
+							<button class="btn btn-default" type="submit" >Искать пользователя!</button>
 							<?if(Yii::$app->request->get('q')):?>
-								<a class="btn btn-danger " href="/garage/">Сбросить</a>
+								<a class="btn btn-danger " href="/users/">Сбросить</a>
 							<?endif;?>
 						</span>				
 				</div><!-- /input-group -->
 			</form>
       	</div>
       	<div class="col-lg-6">
-      		<button class="btn btn-success" type="button" id="new_car">Добавить машину</button>
+      		<button class="btn btn-success" type="button" id="new_user">Добавить пользователя</button>
       	</div>
     </div>
     <br>
@@ -28,61 +28,52 @@
 			<thead>
                 <tr>
 					<th>#</th>
-					<th>Номер</th>
-					<th>Марка</th>
-					<th>Модель</th>
-					<th>Топливо</th>
-					<th>Год выпуска</th>
-					<!--<th>Коробка</th>-->
-					<th>Литраж</th>
-					<th>Мест</th>
-					<th>Привод</th>
-					<th>Цвет</th>
-					<th>Резина</th>
-					<th>Расход л/ч</th>
-					<th>Пробег</th>
+					<th>Login</th>
+					<th>Фио</th>
+					<th>E-mail</th>
+					<th>Телефон</th>
+					<th>Должность</th>
+					<th>Роль</th>
 					<th></th>
                 </tr>
             </thead>
             <tbody>
-                <?foreach($arCarList as $key => $val):?>
+                <?php foreach($arUsersList as $key => $val):?>
 					<tr class="click_edit_car" data-idcar="<?=$val["id"];?>">
-						<td><i  class="fa fa-car" aria-hidden="true"></i> <?=$val["id"];?></td>
-						<td><?=$val["number"];?></td>
-						<td><?=$val["brand"];?></td>
-						<td><?=$val["model"];?></td>
-						<td><?=$val["fuel"];?></td>
-						<td><?=$val["year"];?></td>
-						<!--<td>****</td>-->
-						<td><?=$val["liters"];?></td>
-						<td><?=$val["seats"];?></td>
-						<td><?=$val["relay"];?></td>
-						<td><?=$val["color"];?></td>
-						<td><?=$val["rubber"];?></td>
-						<td><?=$val["consumption"];?></td>
-						<td><?=$val["kilometers"];?></td>
+						<td><i  class="fa fa-user" aria-hidden="true"></i> <?=$val["id"];?></td>
+						<td><?=$val["login"];?></td>
+						<td><?=$val["last_name"];?> <?=$val["name"];?> <?=$val["second_name"];?></td>
+						<td><?=$val["email"];?></td>
+						<td><?=$val["phone"];?></td>
+						<td><?=$val["position"];?></td>
 						<td>
-							<i title="В ремонт" class="wrench_car fa fa-wrench " aria-hidden="true"></i>
-							<i title="Удалить автомобиль" class="remove_car fa fa-times " aria-hidden="true"></i>
+							<?php if($val["role"]):?>
+								Администратор
+							<?php else:?>
+								<?=$val["role"];?>
+							<?php endif;?>
+						</td>
+						<td>							
+							<i title="Удалить пользователя" class="remove_car fa fa-times " aria-hidden="true"></i>
 						</td>
 					</tr>
-				<?endforeach;?>
+				<?php endforeach;?>
 			</tbody>
 		</table>
 	</div>	
 	
 <?//модельное окно добавления авто?>
-<div class="modal fade" id="form_edit_car_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="form_edit_user_modal" tabindex="-1" role="dialog" aria-labelledby="myUserLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog_edit_avto">
 	    <div class="modal-content">
 			<div class="modal-header">
 			  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			  <h4 class="modal-title" id="myModalLabel">Добавить автомобиль</h4>
+			  <h4 class="modal-title" id="myUserLabel">Добавить пользователя</h4>
 			</div>
 			<div class="modal-body">
 				  <div class="row">
 <!--					  <span class="fa-3x"><i class="fa fa-spinner fa-spin "></i>Ожидайте</span>-->
-					  <form class="form-horizontal row_b <?=(!empty($errors)) ? 'errors' : ''?>" role="form" id="Fcar" method="post">	
+					  <form class="form-horizontal row_b <?=(!empty($errors)) ? 'errors' : ''?>" role="form" id="Fuser" method="post">	
 						  <input type="hidden" name="<?=Yii::$app->request->csrfParam;?>" value="<?=Yii::$app->request->getCsrfToken(); ?>" />
 						  <input type="hidden" name="Cars[id]" value="" />
 						  <div class="row">

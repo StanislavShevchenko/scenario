@@ -60,14 +60,14 @@ $config = [
             'showScriptName' => false,
             'rules' => [
 				'/'             => 'main/index',
+				'/login/'       => 'main/login',
+				'/logout/'      => 'main/logout',
 				'/reservation/' => 'reservation/index',
 				'/garage/ajax/' => 'garage/ajax',
-				'/garage/'      => 'garage/index',				
-				'/login'        => 'main/login',
-				
-                '<controller:\w+>/<id:\d+>' => '<controller>/view',
-                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>' => '<controller>/<action>'
+				'/garage/'      => 'garage/index',
+//                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+//                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+//                '<controller:\w+>/<action:\w+>' => '<controller>/<action>'
             ],
         ],
         
@@ -75,22 +75,22 @@ $config = [
     'params' => $params,
 ];
 
-//if (YII_ENV_DEV) {
-//    // configuration adjustments for 'dev' environment
-//    $config['bootstrap'][] = 'debug';
-//    $config['modules']['debug'] = [
-//        'class' => 'yii\debug\Module',
-//        // uncomment the following to add your IP if you are not connecting from localhost.
-//        //'allowedIPs' => ['127.0.0.1', '::1'],
-//    ];
-//
-//    $config['bootstrap'][] = 'gii';
-//    $config['modules']['gii'] = [
-//        'class' => 'yii\gii\Module',
-//        // uncomment the following to add your IP if you are not connecting from localhost.
-//        //'allowedIPs' => ['127.0.0.1', '::1'],
-//    ];
-//}
+if (YII_ENV_DEV) {
+    // configuration adjustments for 'dev' environment
+    $config['bootstrap'][] = 'debug';
+    $config['modules']['debug'] = [
+        'class' => 'yii\debug\Module',
+        // uncomment the following to add your IP if you are not connecting from localhost.
+        //'allowedIPs' => ['127.0.0.1', '::1'],
+    ];
+
+    $config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = [
+        'class' => 'yii\gii\Module',
+        // uncomment the following to add your IP if you are not connecting from localhost.
+        //'allowedIPs' => ['127.0.0.1', '::1'],
+    ];
+}
 function dg($variable){
 	echo "<span style='width:50%; text-align:left; z-index:10000; color:blue;font-size:14px;'><pre>";
     print_r($variable);

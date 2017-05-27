@@ -32,11 +32,11 @@ AppAsset::register($this);
 		var name_csrf    = "<?=Yii::$app->request->csrfParam;?>";
 		var csrf         = "<?=Yii::$app->request->getCsrfToken();?>";
 	</script>
-<?
+<?php
 	unset($_SESSION['info']);
 	unset($_SESSION['success']);
 	unset($_SESSION['error']);
-//-------------------------------?>
+?>
 
 	<?php $this->beginBody() ?>
 		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -62,9 +62,19 @@ AppAsset::register($this);
 					<li><a href="#">Ke schvaleni</a></li>
 					<li><a href="#">Muj profil</a></li>
 					<li><a href="#">Odhlasit</a></li>-->
-<li><a href="/reservation/" class="<?=(strripos($url, 'reservation/') === false)?'':'active_main_menu'?>"><i  class="fa fa-calendar-check-o  " aria-hidden="true"></i> Бронирования</a></li>
+					<li><a href="/reservation/" class="<?=(strripos($url, 'reservation/') === false)?'':'active_main_menu'?>"><i  class="fa fa-calendar-check-o  " aria-hidden="true"></i> Бронирования</a></li>
 					<li><a href="/garage/" class="<?=(strripos($url, 'garage/') === false)?'':'active_main_menu'?>"><i  class="fa fa-car" aria-hidden="true"></i> Гараж</a></li>
 					<li><a href="/users/" class="<?=(strripos($url, 'users/') === false)?'':'active_main_menu'?>"><i  class="fa fa-users " aria-hidden="true"></i> Пользователи</a></li>
+				</ul>
+				<ul class="nav navbar-nav menu_sign" >
+					<li style="border-right: 1px solid;"><a><?=Yii::$app->user->identity->name?> <?=Yii::$app->user->identity->second_name?></a></li>
+					<li>
+						<?php if(Yii::$app->user->isGuest):?>
+							<a href="/login" class="<?=(strripos($url, 'login') === false)?'':'active_main_menu'?>"><i  class="fa fa-sign-in " aria-hidden="true"></i> Войти</a>
+						<?php else:?>	
+							<a href="/logout"><i  class="fa fa-sign-out " aria-hidden="true"></i> Выйти</a>
+						<?php endif;?>
+					</li>
 				</ul>
 			</div>
 		</div>

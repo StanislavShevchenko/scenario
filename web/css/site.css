@@ -239,3 +239,10 @@ body {
 .active_main_menu{
 	color: #fff !important;
 }
+.menu_sign{
+	float: right;
+	font-weight: bold;
+}
+.menu_sign i{
+	font-size: 16px;
+}

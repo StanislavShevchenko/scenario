@@ -5,9 +5,9 @@
 $(document).ready(function(){
 	
 	//открыть окно создания авто------------------------------------------------
-	$( "#new_car" ).click(function() {
-	   $('#form_edit_car_modal').modal('show');
-	   $('#Fcar')[0].reset();
+	$( "#new_user" ).click(function() {
+	   $('#form_edit_user_modal').modal('show');
+	   $('#Fuser')[0].reset();
 	});
 	//--------------------------------------------------------------------------	
 	
