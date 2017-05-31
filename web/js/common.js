@@ -10,10 +10,6 @@ $(document).ready(function(){
 		}
 	);
 
-	$( ".click_cal" ).click(function() {
-	   location.replace("/cal/");
-	});
-
 	//открыть колендарь авто----------------------------------------------------
 	$( ".table_cal td" ).click(function() {
 	   $('#cal_modal').modal('show');

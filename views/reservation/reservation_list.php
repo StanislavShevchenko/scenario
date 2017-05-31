@@ -1,7 +1,8 @@
 <?php $this->title = 'Бронирование машин'; ?>
 <h1>Бронирование автомобиля</h1>
 	<ul class="nav nav-justified">
-		<li class="active"><a href="#">Свободные</a></li>
+		<!--class="active"-->
+		<li ><a href="#">Свободные</a></li>
 		<li><a href="#">Свободные места</a></li>
 		<li><a href="#">Заняты по времени</a></li>
 		<li><a href="#">Арендованные</a></li>
@@ -53,19 +54,20 @@
                 </tr>
             </thead>
             <tbody>
-                <?/*foreach($carList as $key => $val):?>
-					<tr class="click_cal">
-						<td><?=$key?></td>
-						<td><?=$val["NUM"];?></td>
-						<td><?=$val["NAME"];?></td>
-						<td><?=$val["SERIAL"];?></td>
-						<td><?=$val["COLOR"];?></td>
-						<td><?=$val["PLACES"];?></td>
-						<td><?=$val["FUEL"];?></td>
-						<td><?=$val["LITR"];?></td>
-						<td><?=$val["TRANSMISSION"];?></td>
+               <?foreach($arCarList as $key => $val):?>
+					<tr class="click_bcaledar" data-idcar="<?=$val["id"];?>">
+						<td><i class="fa fa-car" aria-hidden="true"></i> <?=$val["id"];?></td>
+						<td><?=$val["number"];?></td>
+						<td><?=$val["brand"];?></td>
+						<td><?=$val["model"];?></td>
+						<td><?=$val["color"];?></td>
+						<td><?=$val["seats"];?></td>
+						<td><?=$val["fuel"];?></td>
+						<td><?=$val["liters"];?></td>
+						<td>							
+						</td>
 					</tr>
-				<?endforeach;*/?>
+				<?endforeach;?>
 			</tbody>
 		</table>
 	</div>		

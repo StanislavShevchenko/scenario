@@ -62,7 +62,6 @@
 						<td><?=$val["consumption"];?></td>
 						<td><?=$val["kilometers"];?></td>
 						<td>
-							<i title="В ремонт" class="wrench_car fa fa-wrench " aria-hidden="true"></i>
 							<i title="Удалить автомобиль" class="remove_car fa fa-times " aria-hidden="true"></i>
 						</td>
 					</tr>

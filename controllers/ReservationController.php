@@ -4,13 +4,37 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-//use app\models\Login;
-//use app\models\User;
-use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use app\models\Cars;
+use app\assets\AppAsset;
+use app\common\Noty;
 
 class ReservationController extends Controller
 {   
 
+	public function behaviors()
+	{
+		return [
+			'access' => [
+				'class' => AccessControl::className(),
+				'rules' => [
+					[
+						'actions' => [
+							'index',
+							'calendar',
+						],
+						'allow' => true,
+						'roles' => ['puser'],
+					],
+				],
+				'denyCallback' =>  function ($rule, $action) {
+					Yii::$app->session->setFlash('error', 'Доступ запрещен');
+					$this->redirect('/');
+				}
+			],
+		];
+	}
+	
     /**
      * Displays homepage.
      *
@@ -19,7 +43,95 @@ class ReservationController extends Controller
     public function actionIndex()
     {
 		$arRender = [];	
+		$searchText = trim(Yii::$app->request->get('q'));
+		$queryCars =  Cars::find();
+		
+		if(!empty($searchText)){
+			$queryCars->andFilterWhere(['or',
+				['like', 'number', $searchText],
+				['like', 'brand',  $searchText],
+				['like', 'model',  $searchText],
+				]);
+		}
+		
+		$arRender['arCarList']  = $queryCars->asArray()->all(); 
+		
+		$this->getView()->registerJsFile('/js/reservation/script.js', ['depends' => [AppAsset::className()]]);
         return $this->render('reservation_list', $arRender);
     }
+	
+	public function actionCalendar($id){
+		$arRender = [];	
+		
+		//выбор активного автомобиля-----------------------------
+		$arCar = Cars::find()
+				->where(['id' => (int)$id])
+				->asArray()
+				->one();
+		if(empty($arCar)){
+			Noty::setNoty('error', 'машина не найдена', '/reservation/');			
+		}
+		$arRender['id'] = $id;
+		$arRender['arCar'] = $arCar;
+		//-------------------------------------------------------
+		
+		//список автомобилей-------------------------------------
+		$arRender['arCarList']  = Cars::find()->asArray()->all(); 
+		//-------------------------------------------------------
+		
+		
+		//определения месяца-------------------------------------
+		$getMonth = trim(Yii::$app->request->get('month'));
+		$monthNow = date('n');        
+        if(isset($getMonth) && (int)$getMonth > 0 && (int)$getMonth <= 12)
+            $monthNow = $getMonth;		
+		$arRender['arCalendar'] = $this->getCalendar($monthNow);
+		//-------------------------------------------------------
+
+		return $this->render('calendar', $arRender);		
+	}
+	
+	protected function getCalendar($month = 0){
+		$arMonth = array(
+            1  => 'Январь',
+            2  => 'Февраль',
+            3  => 'Март',
+            4  => 'Апрель',
+            5  => 'Май',
+            6  => 'Июнь',
+            7  => 'Июль',
+            8  => 'Август',
+            9  => 'Сентябрь',
+            10 => 'Октябрь',
+            11 => 'Ноябрь',
+            12 => 'Декабрь',
+        );
+        
+        $monthNow = date('n');
+        
+        if((int)$month > 0 && (int)$month <= 12)
+            $monthNow = (int)$month;
+
+        $dayMonth  = date("t", strtotime('1.'.$monthNow.'.'.date('Y')));
+		$dayW      = '';
+		$arMontDay = array();
+		$w         = 1;
+		
+		for($i=1; $i<=$dayMonth; $i++){
+			$dayW = date("w", strtotime($i.'.'.$monthNow.'.'.date('Y')));
+			$dayW = ($dayW == 0) ? 7 : $dayW;
+			if($dayW != 1){
+				$arMontDay[$w][$dayW] = $i;
+			}else{
+				if(empty($arMontDay)){
+					$arMontDay[$w][$dayW] = $i;
+				}else{
+					$w++;
+					$arMontDay[$w][$dayW] = $i;
+				}
+			}
+		}
+		return ['arMontDay' => $arMontDay, 'arMonth' => $arMonth, 'monthNow' => $monthNow];
+	}
 
 }

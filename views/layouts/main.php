@@ -24,7 +24,6 @@ AppAsset::register($this);
 </head>
 
 <body cz-shortcut-listen="true">
-<?//Опустошим сообщения?>
 	<script>
 		var noty_error   = "<?=(!empty($_SESSION['error']) ? $_SESSION['error'] : '');?>";
 		var noty_success = "<?=(!empty($_SESSION['success']) ? $_SESSION['success'] : '');?>";
@@ -32,11 +31,11 @@ AppAsset::register($this);
 		var name_csrf    = "<?=Yii::$app->request->csrfParam;?>";
 		var csrf         = "<?=Yii::$app->request->getCsrfToken();?>";
 	</script>
-<?php
-	unset($_SESSION['info']);
-	unset($_SESSION['success']);
-	unset($_SESSION['error']);
-?>
+	<?php
+		unset($_SESSION['info']);
+		unset($_SESSION['success']);
+		unset($_SESSION['error']);
+	?>
 
 	<?php $this->beginBody() ?>
 		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -51,31 +50,24 @@ AppAsset::register($this);
 			</div>
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<?php
-						$url = Yii::$app->request->pathInfo;
-					?>
-					<!-- <li class="active"><a href="#">Home</a></li> -->
-<!--					<li><a href="#">Uzivatele</a></li>
-					<li><a href="#">Pridat Uzivatele</a></li>
-					<li><a href="#">Spravovat opravneni</a></li>
-					<li><a href="#">Nastaveni</a></li>
-					<li><a href="#">Ke schvaleni</a></li>
-					<li><a href="#">Muj profil</a></li>
-					<li><a href="#">Odhlasit</a></li>-->
-					<li><a href="/reservation/" class="<?=(strripos($url, 'reservation/') === false)?'':'active_main_menu'?>"><i  class="fa fa-calendar-check-o  " aria-hidden="true"></i> Бронирования</a></li>
-					<li><a href="/garage/" class="<?=(strripos($url, 'garage/') === false)?'':'active_main_menu'?>"><i  class="fa fa-car" aria-hidden="true"></i> Гараж</a></li>
-					<li><a href="/users/" class="<?=(strripos($url, 'users/') === false)?'':'active_main_menu'?>"><i  class="fa fa-users " aria-hidden="true"></i> Пользователи</a></li>
+					<?php if(!Yii::$app->user->isGuest):?>
+						<?php $url = Yii::$app->request->pathInfo; ?>
+						<li><a href="/reservation/" class="<?=(strripos($url, 'reservation/') === false)?'':'active_main_menu'?>"><i  class="fa fa-calendar-check-o  " aria-hidden="true"></i> Бронирования</a></li>
+						<?php if(Yii::$app->user->can('padmin')):?>
+							<li><a href="/garage/" class="<?=(strripos($url, 'garage/') === false)?'':'active_main_menu'?>"><i  class="fa fa-car" aria-hidden="true"></i> Гараж</a></li>
+							<li><a href="/users/" class="<?=(strripos($url, 'users/') === false)?'':'active_main_menu'?>"><i  class="fa fa-users " aria-hidden="true"></i> Пользователи</a></li>
+						<?php endif;?>	
+					
+						<?php else:?>
+						<li><a href="/login" class="<?=(strripos($url, 'login') === false)?'':'active_main_menu'?>"><i  class="fa fa-sign-in " aria-hidden="true"></i> Войти</a></li>
+					<?php endif;?>
 				</ul>
-				<ul class="nav navbar-nav menu_sign" >
-					<li style="border-right: 1px solid;"><a><?=Yii::$app->user->identity->name?> <?=Yii::$app->user->identity->second_name?></a></li>
-					<li>
-						<?php if(Yii::$app->user->isGuest):?>
-							<a href="/login" class="<?=(strripos($url, 'login') === false)?'':'active_main_menu'?>"><i  class="fa fa-sign-in " aria-hidden="true"></i> Войти</a>
-						<?php else:?>	
-							<a href="/logout"><i  class="fa fa-sign-out " aria-hidden="true"></i> Выйти</a>
-						<?php endif;?>
-					</li>
-				</ul>
+				<?php if(!Yii::$app->user->isGuest):?>
+					<ul class="nav navbar-nav menu_sign" >
+						<li style="border-right: 1px solid;"><a><?=Yii::$app->user->identity->name?> <?=Yii::$app->user->identity->second_name?></a></li>
+						<li><a href="/logout"><i  class="fa fa-sign-out " aria-hidden="true"></i> Выйти</a></li>
+					</ul>
+				<?php endif;?>
 			</div>
 		</div>
 		<div class="container container_main">		

@@ -22,6 +22,8 @@ class m170511_180423_create_users_table extends Migration
 			. "`email` VARCHAR(250) NULL , "
 			. "`phone` VARCHAR(250) NULL ,"
 			. "`position` VARCHAR(250) NULL ,"
+			. "`created`  INT NOT NULL, "
+			. "`modified` INT NOT NULL, "
 			. "`role` TINYINT NOT NULL DEFAULT '0' , "
 			. "PRIMARY KEY (`id`), UNIQUE `login_index` (`login`)) ENGINE = InnoDB;"
 		);	

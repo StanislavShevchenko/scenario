@@ -12,18 +12,18 @@ $(document).ready(function(){
 	//--------------------------------------------------------------------------	
 	
 	//удаление авто------------------------------------------------
-	$( ".remove_car" ).click(function() {
+	$( ".remove_user" ).click(function() {
 		
 		if (!confirm("Вы подтверждаете удаление?")) return false;
 		 
-		var id = $(this).parent('td').parent('tr').data('idcar');
+		var id = $(this).parent('td').parent('tr').data('iduser');
 
 		$.ajax({
 			type: 'POST',
-			url: '/garage/ajax/',
+			url: '/users/ajax/',
 			dataType:'JSON',
 			data: {
-				action: 'delCar',
+				action: 'delUser',
 				id: id,
 				_csrf: csrf
 			},
@@ -33,7 +33,7 @@ $(document).ready(function(){
 					alert();
 				}else{
 					mshow('success', json.OK);
-					$('[data-idcar='+id+']').remove();
+					$('[data-iduser='+id+']').remove();
 				}
 			}
 		});
@@ -42,15 +42,15 @@ $(document).ready(function(){
 	//--------------------------------------------------------------------------	
 	
 	//открыть окно для редактирования  авто------------------------------------------------
-	$( ".click_edit_car td" ).click(function() {
-		var id = $(this).parent('tr').data('idcar');
+	$( ".click_edit_user td" ).click(function() {
+		var id = $(this).parent('tr').data('iduser');
 		var temp_name = '';
 		$.ajax({
 			type: 'POST',
-			url: '/garage/ajax/',
+			url: '/users/ajax/',
 			dataType:'JSON',
 			data: {
-				action: 'getCar',
+				action: 'getUser',
 				id: id,
 				_csrf: csrf
 			},
@@ -59,20 +59,25 @@ $(document).ready(function(){
 					alert('error ajax');
 				}else{
 					$.each(json, function( key, value ) {
-						temp_name = '[name = "Cars['+key+']"]';
+						temp_name = '[name = "User['+key+']"]';
 						switch ($(temp_name).prop("tagName")){
 							case 'INPUT':{
 								$(temp_name).val(value);
 								break;
 							}
 							case 'SELECT':{
-								$(temp_name).val(value).change();
+								if(key === 'roles' && value != null){
+									$(temp_name).val(value.item_name).change();
+								}else{
+									$(temp_name).val(value).change();
+								}
+								
 								break;
 							}
 						}
 					});
-					$('#myModalLabel').html('Редактировать автомобиль: ' + json.brand + ' ' + json.model + ' (' + json.number + ')');
-					$('#form_edit_car_modal').modal('show');
+					$('#myUserLabel').html('Редактировать автомобиль: ' + json.brand + ' ' + json.model + ' (' + json.number + ')');
+					$('#form_edit_user_modal').modal('show');
 				}
 			}
 		});

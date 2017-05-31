@@ -33,30 +33,46 @@
 					<th>E-mail</th>
 					<th>Телефон</th>
 					<th>Должность</th>
-					<th>Роль</th>
+					<th>Локация</th>
 					<th></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach($arUsersList as $key => $val):?>
-					<tr class="click_edit_car" data-idcar="<?=$val["id"];?>">
+					<tr class="click_edit_user" data-iduser="<?=$val["id"];?>">
 						<td><i  class="fa fa-user" aria-hidden="true"></i> <?=$val["id"];?></td>
 						<td><?=$val["login"];?></td>
 						<td><?=$val["last_name"];?> <?=$val["name"];?> <?=$val["second_name"];?></td>
 						<td><?=$val["email"];?></td>
-						<td><?=$val["phone"];?></td>
+						<td><?=$val["phone"];?> <?=(!empty($val["mphone"])) ? '/'.$val["mphone"]: ''?></td>
 						<td><?=$val["position"];?></td>
-						<td>
-							<?php if($val["role"]):?>
-								Администратор
-							<?php else:?>
-								<?=$val["role"];?>
-							<?php endif;?>
+						<td><?=$val["country"];?> <?=$val["city"];?>
+							<?=(!empty($val["street"])) ? 'ул.'.$val["street"] : ''?> <?=(!empty($val["home"])) ? 'дом '.$val["home"] : ''?> 
+							<?=(!empty($val["zip"]))? '('.$val["zip"].')' : ''?>
 						</td>
+<!--						<td>
+							<?php if($val["roles"]['item_name']=='su'):?>
+								Root
+							<?php elseif($val["roles"]['item_name']=='admin'):?>
+								Администратор
+							<?php elseif($val["roles"]['item_name']=='user'):?>
+								Пользователь
+							<?php endif;?>
+						</td>-->
 						<td>							
-							<i title="Удалить пользователя" class="remove_car fa fa-times " aria-hidden="true"></i>
+							<!--<i title="Детально" class="fa fa-chevron-down  info_user_btn" aria-hidden="true"></i>-->
+							<i title="Удалить пользователя" class="remove_user fa fa-times " aria-hidden="true"></i>
 						</td>
 					</tr>
+<!--					<tr style="display: none" data-userinfo="<?=$val["id"];?>">
+						<td colspan="9">
+							    <div class="row">
+									<div class="col-lg-12">
+										
+									</div>
+								</div>
+						</td>
+					</tr>-->
 				<?php endforeach;?>
 			</tbody>
 		</table>
@@ -64,7 +80,7 @@
 	
 <?//модельное окно добавления авто?>
 <div class="modal fade" id="form_edit_user_modal" tabindex="-1" role="dialog" aria-labelledby="myUserLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog_edit_avto">
+	<div class="modal-dialog modal-dialog_edit_user">
 	    <div class="modal-content">
 			<div class="modal-header">
 			  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -74,119 +90,187 @@
 				  <div class="row">
 <!--					  <span class="fa-3x"><i class="fa fa-spinner fa-spin "></i>Ожидайте</span>-->
 					  <form class="form-horizontal row_b <?=(!empty($errors)) ? 'errors' : ''?>" role="form" id="Fuser" method="post">	
-						  <input type="hidden" name="<?=Yii::$app->request->csrfParam;?>" value="<?=Yii::$app->request->getCsrfToken(); ?>" />
-						  <input type="hidden" name="Cars[id]" value="" />
-						  <div class="row">
-							  <div class="col-lg-6">		
-								  <div class="input-group">
-										<span class="input-group-addon">Номер:</span>
-										<input type="text" name="Cars[number]" class="form-control" >
-										<span class="<?=(isset($errors['number'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
-								  </div>
-							  </div>
-							  <div class="col-lg-6">	
-								  <div class="input-group">
-										<span class="input-group-addon">Марка:</span>
-										<input type="text" name="Cars[brand]" class="form-control" >
-										<span class="<?=(isset($errors['brand'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
-								  </div>								
-							  </div>
-						  </div>
-						  <div class="row">
-							  <div class="col-lg-6">		
-								  <div class="input-group">
-										<span class="input-group-addon">Модель:</span>
-										<input type="text" name="Cars[model]" class="form-control" >
-										<span class="<?=(isset($errors['model'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
-								  </div>
-							  </div>
-							  <div class="col-lg-6">	
-								  <div class="input-group">
-										<span class="input-group-addon">Топливо:</span>
-										<select name="Cars[fuel]" class="form-control">
-											<option value="бензин">бензин</option>
-											<option value="дизель">дизель</option>
+							<input type="hidden" name="<?=Yii::$app->request->csrfParam;?>" value="<?=Yii::$app->request->getCsrfToken(); ?>" />
+							<input type="hidden" name="User[id]" value="" />
+							<div class="row">
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Логин:</span>
+										<input type="text" name="User[login]" class="form-control" >
+										<span class="<?=(isset($errors['login'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>
+								</div>
+								<div class="col-lg-3">	
+									<div class="input-group">
+										<span class="input-group-addon">Пароль:</span>
+										<input type="password" name="User[password]" class="form-control" >
+										<span class="<?=(isset($errors['password'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>								
+								</div>
+								<div class="col-lg-3">	
+									<div class="input-group">
+										<span class="input-group-addon">E-mail:</span>
+										<input type="email" name="User[email]" class="form-control" >
+										<span class="<?=(isset($errors['email'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>								
+								</div>
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Права:</span>
+										<select name="User[roles]" class="form-control">
+											<option value="user">Пользователь</option>
+											<option value="admin">Администратор</option>
 										</select>
-										<span class="<?=(isset($errors['fuel'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
-										<!--<input type="text" name="Cars[fuel]" class="form-control" >-->
-								  </div>								
-							  </div>
-						  </div>
-						  <div class="row">
-							  <div class="col-lg-6">		
-								  <div class="input-group">
-										<span class="input-group-addon">Год выпуска:</span>
-										<input type="number" name="Cars[year]" class="form-control js_only-int" >
-										<span class="<?=(isset($errors['year'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
-								  </div>
-							  </div>
-							  <div class="col-lg-6">	
-								  <div class="input-group">
-										<span class="input-group-addon">Литраж:</span>
-										<input type="number" name="Cars[liters]" class="form-control js_only-int" >
-										<span class="<?=(isset($errors['liters'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
-								  </div>								
-							  </div>
-						  </div>
-						  <div class="row">
-							  <div class="col-lg-6">		
-								  <div class="input-group">
-									  <span class="input-group-addon">Мест:</span>
-									  <input type="number" name="Cars[seats]" class="form-control js_only-int" >
-									   <span class="<?=(isset($errors['seats'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
-								  </div>
-							  </div>
-							  <div class="col-lg-6">	
-								  <div class="input-group">
-										<span class="input-group-addon">Ведущее реле:</span>
-										<select name="Cars[relay]" class="form-control">
-											<option value="задний">задний</option>
-											<option value="передний">передний</option>
-											<option value="полный привод">полный привод</option>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Имя:</span>
+										<input type="text" name="User[name]" class="form-control" >
+										<span class="<?=(isset($errors['name'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>
+								</div>
+								<div class="col-lg-3">	
+									<div class="input-group">
+										<span class="input-group-addon">Фамилия:</span>
+										<input type="text" name="User[second_name]" class="form-control" >
+										<span class="<?=(isset($errors['second_name'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>								
+								</div>
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Отчество:</span>
+										<input type="text" name="User[last_name]" class="form-control" >
+										<span class="<?=(isset($errors['last_name'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>
+								</div>
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Звания:</span>
+										<input type="text" name="User[rangs]" class="form-control" >
+										<span class="<?=(isset($errors['rangs'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Страна:</span>
+										<input type="text" name="User[country]" class="form-control" >
+										<span class="<?=(isset($errors['country'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>
+								</div>
+								<div class="col-lg-3">	
+									<div class="input-group">
+										<span class="input-group-addon">Город:</span>
+										<input type="text" name="User[city]" class="form-control" >
+										<span class="<?=(isset($errors['city'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>								
+								</div>
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Улица:</span>
+										<input type="text" name="User[street]" class="form-control" >
+										<span class="<?=(isset($errors['street'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>
+								</div>
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Дом:</span>
+										<input type="text" name="User[home]" class="form-control" >
+										<span class="<?=(isset($errors['home'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Индекс:</span>
+										<input type="text" name="User[zip]" class="form-control" >
+										<span class="<?=(isset($errors['zip'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>
+								</div>
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Телефон:</span>
+										<input type="text" name="User[phone]" class="form-control" >
+										<span class="<?=(isset($errors['phone'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>
+								</div>
+								<div class="col-lg-3">	
+									<div class="input-group">
+										<span class="input-group-addon">Мобильный:</span>
+										<input type="text" name="User[mphone]" class="form-control" >
+										<span class="<?=(isset($errors['mphone'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>								
+								</div>
+								<div class="col-lg-3">	
+									<div class="input-group">
+										<span class="input-group-addon">Должность:</span>
+										<input type="text" name="User[position]" class="form-control" >
+										<span class="<?=(isset($errors['position'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>								
+								</div>
+							</div>						 
+							<div class="row">
+								<div class="col-lg-3">	
+									<div class="input-group">
+										<span class="input-group-addon">Уровень:</span>
+										<select name="User[department]" class="form-control">
+											<option value="chief">Управляющий</option>
+											<option value="subordinate">Подчинённый</option>
 										</select>
-										<span class="<?=(isset($errors['relay'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
-								  </div>								
-							  </div>
-						  </div>
-						  <div class="row">
-							  <div class="col-lg-6">		
-								  <div class="input-group">
-										<span class="input-group-addon">Цвет:</span>
-										<input type="text" name="Cars[color]" class="form-control" >
-										<span class="<?=(isset($errors['color'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
-								  </div>
-							  </div>
-							  <div class="col-lg-6">	
-								  <div class="input-group">
-										<span class="input-group-addon">Резина:</span>
-										<input type="text" name="Cars[rubber]" class="form-control" >
-										<span class="<?=(isset($errors['rubber'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
-								  </div>								
-							  </div>
-						  </div>
-						  <div class="row">
-							  <div class="col-lg-6">		
-								  <div class="input-group">
-										<span class="input-group-addon">Расход то-ва:</span>
-										<input type="number" name="Cars[consumption]" class="form-control js_only-int" >
-										<span class="<?=(isset($errors['consumption'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
-								  </div>
-							  </div>
-							  <div class="col-lg-6">	
-								  <div class="input-group">
-										<span class="input-group-addon">Киллометраж:</span>
-										<input type="number" name="Cars[kilometers]" class="form-control js_only-int" >
-										<span class="<?=(isset($errors['kilometers'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
-								  </div>								
-							  </div>
-						  </div>						
+										<span class="<?=(isset($errors['department'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>								
+								</div>
+								<div class="col-lg-3">	
+									<div class="input-group">
+										<span class="input-group-addon">Ключ:</span>
+										<input type="text" name="User[key]" class="form-control" >
+										<span class="<?=(isset($errors['key'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>								
+								</div>								
+								<div class="col-lg-3">	
+									<div class="input-group">
+										<span class="input-group-addon">Перс. №:</span>
+										<input type="text" name="User[personal_num]" class="form-control" >
+										<span class="<?=(isset($errors['personal_num'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>								
+								</div>
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Доп. звания:</span>
+										<input type="text" name="User[second_rangs]" class="form-control" >
+										<span class="<?=(isset($errors['second_rangs'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>
+								</div>	
+							</div>						 
+							<div class="row">
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Начало дня:</span>
+										<input type="text" name="User[start_work]" class="form-control" >
+										<span class="<?=(isset($errors['start_work'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>
+								</div>
+								<div class="col-lg-3">		
+									<div class="input-group">
+										<span class="input-group-addon">Конец дня:</span>
+										<input type="text" name="User[end_work]" class="form-control" >
+										<span class="<?=(isset($errors['end_work'])? 'error_f' : 'display_n')?>">Ошибка заполнения</span>
+									</div>
+								</div>								
+							
+							</div>			
 					  </form>
 				  </div>
 				<br/>
 			</div>
 			<div class="modal-footer">
 			  <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-			  <button type="button" class="btn btn-primary" onclick="$('#Fcar').submit();" >Сохранить</button>
+			  <button type="button" class="btn btn-primary" onclick="$('#Fuser').submit();" >Сохранить</button>
 			</div>
 	    </div>
 	</div>

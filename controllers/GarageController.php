@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\filters\AccessControl;
 use app\models\Cars;
 use app\assets\AppAsset;
 
@@ -11,6 +12,29 @@ use app\assets\AppAsset;
 class GarageController extends Controller
 {   
 
+	public function behaviors()
+	{
+		return [
+			'access' => [
+				'class' => AccessControl::className(),
+				'rules' => [
+					[
+						'actions' => [
+							'index',
+							'ajax'
+						],
+						'allow' => true,
+						'roles' => ['padmin'],
+					],
+				],
+				'denyCallback' =>  function ($rule, $action) {
+					Yii::$app->session->setFlash('error', 'Доступ запрещен');
+					$this->redirect('/');
+				}
+			],
+		];
+	}
+	
     /**
      * Displays homepage.
      *
