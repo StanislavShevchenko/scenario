@@ -11,9 +11,9 @@
 					<input class="form-control" name="q" value="<?=Yii::$app->request->get('q');?>" type="text">
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="submit" >Искать машину!</button>
-							<?if(Yii::$app->request->get('q')):?>
+							<?php if(Yii::$app->request->get('q')):?>
 								<a class="btn btn-danger " href="/garage/">Сбросить</a>
-							<?endif;?>
+							<?php endif;?>
 						</span>				
 				</div><!-- /input-group -->
 			</form>

@@ -18,46 +18,7 @@ class MainController extends Controller
      */
     public function actionIndex()
     {
-		$arRender = [];
-		/*
-		$dataProvider = new ActiveDataProvider([
-			'query' => User::find()->joinWith('wallet'),
-			'pagination' => [
-				'pageSize' => 20,
-			],
-		]);
-		User::find()->where(['id'=>Yii::$app->user->id])->With('wallet')->one(); 
-		$arRender['dataProvider'] = $dataProvider;
-		
-		if (!Yii::$app->user->isGuest){			
-			
-			$FormTransactions = new FormTransactions();
-			
-			$dataRecipient = new ActiveDataProvider([
-				'query' => Transactions::find()->where(['recipient'=>Yii::$app->user->id])->joinWith('senderUser'),
-				'pagination' => [
-					'pageSize' => 20,
-				],
-			]);
-			$arRender['dataRecipient'] = $dataRecipient;	
-
-			$dataSender = new ActiveDataProvider([
-				'query' => Transactions::find()->where(['sender'=>Yii::$app->user->id])->joinWith('recipientUser'),
-				'pagination' => [
-					'pageSize' => 20,
-				],
-			]);
-			$arRender['dataSender'] = $dataSender;	
-			
-			if( Yii::$app->request->post('FormTransactions')){
-				$FormTransactions->attributes = Yii::$app->request->post('FormTransactions');
-				if($FormTransactions->validate()){
-					$FormTransactions->makeTransaction();
-				}
-			}
-			$arRender['FormTransactions'] = $FormTransactions;
-		}
-		*/
+		$arRender = [];		
         return $this->render('index', $arRender);
     }
 	

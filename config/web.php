@@ -70,7 +70,8 @@ $config = [
 				'/users/'       => 'users/index',
 				
 				'/reservation/'          => 'reservation/index',
-				'/reservation/<id:\d+>/' => 'reservation/calendar',
+				'/reservation/add/'      => 'reservation/add',
+				'/reservation/<carID:\d+>/' => 'reservation/calendar',
 				
 //                '<controller:\w+>/<id:\d+>' => '<controller>/view',
 //                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

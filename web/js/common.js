@@ -9,14 +9,6 @@ $(document).ready(function(){
 			$(this).closest('tr').removeClass('active_tr');  
 		}
 	);
-
-	//открыть колендарь авто----------------------------------------------------
-	$( ".table_cal td" ).click(function() {
-	   $('#cal_modal').modal('show');
-	});
-	//--------------------------------------------------------------------------
-	
-
 	
 	//только цыфры--------------------------------------------------------------
 	$('.js_only-int').on('keyup', function(){
@@ -73,9 +65,10 @@ $(document).ready(function(){
 	$(function(){
 		$('.date_pic').daterangepicker({
 			singleDatePicker: true,
+			dateLimit: true,
 			locale: {
 				format: 'DD.MM.YYYY'
 			}
 		});
 	});
-//чекбоксы
+

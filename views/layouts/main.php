@@ -46,7 +46,7 @@ AppAsset::register($this);
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Jesenik v0.1</a>
+				<a class="navbar-brand" href="/">Jesenik v1.0</a>
 			</div>
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
@@ -74,12 +74,12 @@ AppAsset::register($this);
 			<?= $content ?>
 		</div>
 
-		<footer class="footer">
+		<?php /*?><footer class="footer">
 			<div class="container">
 				<p class="pull-left">&copy; Jesenik v0.1 <?= date('Y') ?></p>
 			</div>
 		</footer>
-		
+		*/?>
 	<?php $this->endBody() ?>
 	
 </body>

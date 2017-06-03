@@ -81,6 +81,45 @@ body {
 .default_day{
 	background-color: #f9f9f9;
 }
+.cal_day{
+	position: relative;
+}
+.status_icon{
+    border-radius: 0 0 36px;
+    height: 30%;
+    left: -1px;
+    margin: 0;
+    position: absolute;
+    top: -1px;
+    width: 15%;
+}
+ .green{
+	background-color: #91E65F;
+  
+}
+.red{
+	background-color: #F57065;  
+}
+.black{
+	background-color: #000;  
+}
+.default{
+	background-color: #ddd;  
+}
+
+.rev_temp{
+	background-color: #ddd;  
+}
+.rev_repairs{
+	background-color: #56B3C8;  
+}
+
+ .yellow{
+	background-color: #F5EB65;  
+}
+.blue{
+	background-color: #56B3C8;  
+}
 
 .table_cal .cal_day:hover{
     background-color: #C1FFB8  !important;
@@ -125,7 +164,6 @@ body {
     font-weight: bold;
     padding: 0 5px 0 0;
     text-align: right;
-    width: 115px;
 }
 .modal-dialog_edit_avto{
 	width: 700px;
@@ -136,7 +174,8 @@ body {
 .table_hint_cal td{
 	border-left: 1px solid #dddddd;
 	border-right: 1px solid #dddddd;
-	padding-right: 10px;
+	padding: 3px 7px;
+	font-size: 12px;
 }
 .nav-justified > li > a {
     background-image: -moz-linear-gradient(center top , #f5f5f5 0%, #e5e5e5 100%);
@@ -273,4 +312,43 @@ body {
 }
 .modal-dialog_edit_user .row_b .input-group-addon {
     width: 95px;
+}
+.c_info{
+	cursor: help;
+}
+.c_tooltip{
+    background-color: #ddd;
+    border: 1px solid #cccccc;
+    box-shadow: 0 0 5px;
+    display: none;
+    left: -253px;
+    padding: 5px;
+    position: absolute;
+    top: -1px;
+    width: 250px;
+	color: #000;
+	font-size: 11px;
+	text-align: left;
+	z-index: 1000000;
+}
+
+.active_status{
+	box-shadow: 0 0 5px #000;
+}
+
+.chaild_reserv{
+	color: #9898b1;
+    left: -8px;
+    position: absolute;
+    top: 28px;
+}
+
+.c_tooltip .c_title{
+	width: 240px;
+	border-bottom: 1px solid #666666;
+}
+
+.info_filter{
+	font-size: 10px;
+	color: #777;
 }

@@ -6,6 +6,9 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use app\models\Cars;
+use app\models\ReservationCars;
+use app\models\FormReservation;
+use app\models\FormReservationFilter;
 use app\assets\AppAsset;
 use app\common\Noty;
 
@@ -22,6 +25,7 @@ class ReservationController extends Controller
 						'actions' => [
 							'index',
 							'calendar',
+							'add',
 						],
 						'allow' => true,
 						'roles' => ['puser'],
@@ -42,53 +46,101 @@ class ReservationController extends Controller
      */
     public function actionIndex()
     {
-		$arRender = [];	
+		$arRender   = [];	
 		$searchText = trim(Yii::$app->request->get('q'));
-		$queryCars =  Cars::find();
 		
+		if(Yii::$app->request->get('Filter')){
+			$arRender['arFilter'] = Yii::$app->request->get('Filter');
+			
+			//выберем данные для календаря и оработаем их -----------
+			$FormReservationFilter = new FormReservationFilter();
+			$FormReservationFilter->attributes = $arRender['arFilter'];
+			if($FormReservationFilter->validate()){
+				$arFilterResult = $FormReservationFilter->getListFilter();
+			}
+			//-------------------------------------------------------
+		}
+			
+		//список машин----------------------------------------
+		$queryCars  = Cars::find();		
+		
+		//Фильтр исключений-----------------------------------
+		if(!empty($arFilterResult)){
+			$queryCars->where(['not in', 'id', $arFilterResult]);
+		}
+		//----------------------------------------------------
+		//поиск по названию-----------------------------------
 		if(!empty($searchText)){
 			$queryCars->andFilterWhere(['or',
 				['like', 'number', $searchText],
 				['like', 'brand',  $searchText],
 				['like', 'model',  $searchText],
-				]);
-		}
-		
+			]);
+		}		
+		//---------------------------------------------------
 		$arRender['arCarList']  = $queryCars->asArray()->all(); 
+		//---------------------------------------------------
+		
 		
 		$this->getView()->registerJsFile('/js/reservation/script.js', ['depends' => [AppAsset::className()]]);
         return $this->render('reservation_list', $arRender);
     }
 	
-	public function actionCalendar($id){
+	public function actionCalendar($carID){
 		$arRender = [];	
+		$getMonth = trim(Yii::$app->request->get('month'));
 		
 		//выбор активного автомобиля-----------------------------
 		$arCar = Cars::find()
-				->where(['id' => (int)$id])
+				->where(['id' => (int)$carID])
 				->asArray()
 				->one();
 		if(empty($arCar)){
 			Noty::setNoty('error', 'машина не найдена', '/reservation/');			
 		}
-		$arRender['id'] = $id;
+		$arRender['id'] = $carID;
 		$arRender['arCar'] = $arCar;
 		//-------------------------------------------------------
 		
 		//список автомобилей-------------------------------------
-		$arRender['arCarList']  = Cars::find()->asArray()->all(); 
+		$arRender['arCarList'] = Cars::find()->asArray()->all(); 
 		//-------------------------------------------------------
 		
+		//выберем данные для календаря и оработаем их -----------
+		$arRender['arListReserv'] = ReservationCars::getReservList($carID, $getMonth);
+		//-------------------------------------------------------
 		
 		//определения месяца-------------------------------------
-		$getMonth = trim(Yii::$app->request->get('month'));
+		
 		$monthNow = date('n');        
         if(isset($getMonth) && (int)$getMonth > 0 && (int)$getMonth <= 12)
             $monthNow = $getMonth;		
 		$arRender['arCalendar'] = $this->getCalendar($monthNow);
 		//-------------------------------------------------------
-
+		
+		$this->getView()->registerJsFile('/js/reservation/script.js', ['depends' => [AppAsset::className()]]);
 		return $this->render('calendar', $arRender);		
+	}
+	
+	/**
+	 * Создание бронирования, екшен не имеет шаблона
+	 */
+	public function actionAdd(){		
+		if( Yii::$app->request->post('Reser')){
+			
+			$arReser = Yii::$app->request->post('Reser');
+			
+			$FormReservation = new FormReservation();
+			$FormReservation->attributes = $arReser;
+			if($FormReservation->validate()){
+				if($FormReservation->save()){
+					Noty::setNoty('success', 'Бронирование сохранено ', '/reservation/'.$arReser['car'].'?month='.$arReser['month']);	
+				}
+			}else{
+				Noty::setNoty('error', 'Ошибка получения данных', '/reservation/');		
+			}
+		}
+		$this->redirect('/reservation/');
 	}
 	
 	protected function getCalendar($month = 0){
